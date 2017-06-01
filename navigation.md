@@ -1,33 +1,23 @@
-# Defender
+# DefenderCZ
 
 [Home](index.md)
 
-[Baselines]()
+[Baseline]()
 
-  * [Linux](baselines/linux.md)
-  * [Windows](baselines/windows.md)
+  * [Linux](baseline/linux.md)
+  * [Windows](baseline/windows.md)
 
-[Forensics]()
+[Forensics](forensics/index.md)
 
-  * [Linux](forensics/linux/index.md)
-  * [Windows](forensics/windows/index.md)
+  * [Linux](forensics/linux.md)
+  * [Windows](forensics/windows.md)
 
-[Monitoring]()
+[Monitoring](monitoring/index.md)
 
-  * [Processes](monitoring/processes.md)
-  * [Services](monitoring/services.md)
-  * [Networking](monitoring/networking.md)
-  * [Sessions](monitoring/sessions.md)
+[Tools](tools/index.md)
 
-[Tools]()
+[References](links.md)
 
-  * [Linux](tools/linux/index.md)
-  * [Windows](tools/windows/index.md)
-
-[References]()
-
-  * [Links](references/links.md)
-  * [Unix Rosetta Stone](references/rosetta.htm)
 
 [gimmick:themechooser](Wiki Theme)
 
