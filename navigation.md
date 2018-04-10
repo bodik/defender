@@ -11,6 +11,7 @@
 
   * [Linux](forensics/linux.md)
   * [Windows](forensics/windows.md)
+  * [Radare2](forensics/radare2.md)
 
 [Monitoring](monitoring/index.md)
 
