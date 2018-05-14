@@ -74,7 +74,7 @@ warning: todo
 	[eventlog-groups.ps1](tools/windows/toolbox/eventlog-groups.ps1)
 	[eventlog-services.ps1](tools/windows/toolbox/eventlog-services.ps1)
 	[eventlog-sheduler.ps1](tools/windows/toolbox/eventlog-scheduler.ps1)
-	[eventlog-processcreation.ps1](tools/windows/toolbox/eventlog-processcreation.ps1) (auditing must be enabled)
+	[eventlog-processcreation.ps1](tools/windows/toolbox/eventlog-processcreation.ps1) (auditing must be enabled [config-audit-processcreation.ps1](tools/windows/toolbox/config-audit-processcreation.ps1))
 </td></tr>
 
  </table>
