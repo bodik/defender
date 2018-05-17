@@ -29,7 +29,7 @@ last > last.txt
 # config
 crontab -l > crontabs.txt
 find /var/spool/cron -type f -ls -exec cat {} \; >> crontabs.txt
-find /aetc -path '*cron*' -type f -ls -exec cat {} \; >> crontabs.txt
+find /etc -path '*cron*' -type f -ls -exec cat {} \; >> crontabs.txt
 dpkg -l > dpkg.txt
 rpm -qa > rpm.txt
 
