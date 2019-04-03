@@ -19,6 +19,8 @@
 # 12 CachedRemoteInteractive Same as RemoteInteractive. This is used for internal auditing.
 # 13 CachedUnlock Workstation logon.
 
+# one optional parameter -dir
+param([string] $dir="")
 
 
 # windows 7 powershell output width
@@ -34,8 +36,17 @@ $logon_type_text = @{
 	"9"="new credentials"; "10"="remote interactive"; "11"="cached interactive"; "12"="cached remote interactive"; "13"="cached unlock"
 }
 $filter_out = @("0", "5")
+$filter_hash_table = @{ID=4624,4625,4634,4647}
 
-$events = Get-WinEvent -FilterHashtable @{LogName="Security"; ID=4624,4625,4634,4647} -Oldest
+if ($dir -ne "") {
+	# input dir defined -> use appropriate evtx file in the specified directory
+	$filter_hash_table["Path"] = $dir.trim('\')  + "\Security.evtx"
+} else {
+	$filter_hash_table["LogName"] = "Security"
+}
+
+$events = Get-WinEvent -FilterHashtable $filter_hash_table -Oldest
+
 if (!$events) { $events = @() }
 
 foreach ($event in $events) {
@@ -52,7 +63,7 @@ foreach ($event in $events) {
 
 $events |
 	where { $filter_out -notcontains $_.LogonType } |
-	select @{n="TimeCreated";e={$_.TimeCreated.ToString("u")}},
+	select @{n="TimeCreated";e={$_.TimeCreated.ToString("u").trim('Z')}},
 		MessageShort,
 		LogonTypeText,
 		@{n="Username";e={"$($_.TargetDomainName)\$($_.TargetUserName)"}},
