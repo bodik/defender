@@ -36,16 +36,16 @@ $logon_type_text = @{
 	"9"="new credentials"; "10"="remote interactive"; "11"="cached interactive"; "12"="cached remote interactive"; "13"="cached unlock"
 }
 $filter_out = @("0", "5")
+$filter_hash_table = @{ID=4624,4625,4634,4647}
 
-if ($dir -eq "") {
-	# input dir not defined -> use current system event queue
-	$events = Get-WinEvent -FilterHashtable @{LogName="Security"; ID=4624,4625,4634,4647} -Oldest
-}
-else {
+if ($dir -ne "") {
 	# input dir defined -> use appropriate evtx file in the specified directory
-	$evtxfile = $dir.trim('\')  + "\Security.evtx"
-	$events = Get-WinEvent -FilterHashtable @{Path=$evtxfile; ID=4624,4625,4634,4647} -Oldest
+	$filter_hash_table["Path"] = $dir.trim('\')  + "\Security.evtx"
+} else {
+	$filter_hash_table["LogName"] = "Security"
 }
+
+$events = Get-WinEvent -FilterHashtable $filter_hash_table -Oldest
 
 if (!$events) { $events = @() }
 
