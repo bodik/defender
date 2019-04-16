@@ -20,9 +20,9 @@ mount /dev/nbd0p1 /mnt/image
 
 
 
-## install plaso with docker
-
+## log2timeline/plaso
 ```
+# install with docker
 sh -c "echo deb https://apt.dockerproject.org/repo debian-jessie main > /etc/apt/sources.list.d/docker.list"
 apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D
 apt-get install apt-transport-https
@@ -31,21 +31,22 @@ apt-get install docker-engine
 docker ps
 docker pull log2timeline/plaso
 docker run -t -i --entrypoint=/bin/bash -v /data:/data log2timeline/plaso
-```
 
-
-## extract data with plaso log2timeline
-```
+# extract data
 log2timeline.py output.zip input.img
 pinfo.py output.zip
 psort.py -w output.txt output.zip
 ```
 
 
+## get borntimes from NTFS using fls
+```
+fls -r -m / /dev/mapper/nbd0p2 > fls-timeline.txt
+mactime -y -d -b fls-timeline.txt > fls-timeline-mactimes.txt
+```
+
 
 ## extract memory image from OpenNebula checkpoint
 
 warning: does not work anymore
-
 https://github.com/juergh/lqs2mem.py
-
