@@ -12,7 +12,8 @@ export > export.txt
 hostname -f > hostname.txt
 uname -a > uname.txt
 lsmod > lsmod.txt
-ps faxu > psfaxu.txt
+ps faxue > psfaxue.txt
+ps faxje > psfaxje.txt
 ls -lR /proc > proc.txt
 df -h > df.txt
 mount > mount.txt
