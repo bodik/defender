@@ -50,6 +50,8 @@ hits: 1
 
 ## seek function and disassemble, write some pseudo-code
 ```
+[0x0804a19a]> s funcname
+
 [0x0804a19a]> seek main
 [0x0804a19a]> pdf
 [0x0804a19a]> pdc
@@ -63,9 +65,23 @@ null 0x804d6c8 push ebp in sym.is_honeypot_wget
 call 0x804ca83 call sym.is_honeypot_cpu in sym.ssh_procesate
 ```
 
-## other
+## visual mode
+
+```
+VV .. enter visual mode
+ARROWS .. move the graph
+;[gX]  .. all round the graph are jump shortcuts
+u/U    .. unseek, redo seek (upon making jump)
+r      .. refresh the graph, but also somehow toggles function jump shortcuts ;[gX]
+p/P    .. rotate graph modes (normal, display offsets, minigraph, summary)
+V      .. toggle basicblock / call graphs
+c      .. toggle cursor mode; can move whole graph, can move selected node around
+```
+
+## references
 
 * https://www.megabeets.net/a-journey-into-radare-2-part-1/
+* https://r2wiki.readthedocs.io/en/latest/options/capv/visual-mode/vv-help/
 
 > Visual Mode & Graph Mode radare2 is equipped with a very strong and efficient
 > suite of Visual Modes. The Visual Mode is much more user-friendly and takes
