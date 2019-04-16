@@ -82,16 +82,3 @@ c      .. toggle cursor mode; can move whole graph, can move selected node aroun
 
 * https://www.megabeets.net/a-journey-into-radare-2-part-1/
 * https://r2wiki.readthedocs.io/en/latest/options/capv/visual-mode/vv-help/
-
-> Visual Mode & Graph Mode radare2 is equipped with a very strong and efficient
-> suite of Visual Modes. The Visual Mode is much more user-friendly and takes
-> the reversing using r2 to a whole new level. Pressing V  will bring us to the
-> Visual Mode screen. Use p/P to change between modes.
-
-> Visual Graphs As in similar disassemblers, radare2 has Graph view. You can
-> access Visual Graph mode from your shell by running VV, move Left/Down/Up/Right
-> using h/j/k/l and jump to a function using g and the key shown next to the jump
-> call (e.g gd).  Use ? to list all the commands and make sure not to miss the R
-> command.
-
-
