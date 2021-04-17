@@ -6,7 +6,7 @@ Linux: find / -xdev -print0 | xargs -0 stat -c "%Y %X %Z %A %U %G %n" >> timesta
 FreeBSD: find / -xdev -print0 | xargs -0 stat -f "%a %m %c %Sp %Su %Sg %N" >> timestamps.dat
 timeline_decorator.py < timestamps.dat | sort -n > timeline.txt
 ```
-[timeline_decorator.py](../tools/timeline_decorator.py)
+[timeline_decorator.py](../tools/linux/timeline_decorator.py)
 
 
 
