@@ -5,6 +5,8 @@
 * run all programs/services with least privileges, separate service users
 	* windows: don't miss `SEAssignPrimaryTokenPrivilege`
 	* linux mod_ruid2: mind the capabilities `CAP_SETUID`, `CAP_SETGID`
+* use antivirus to find known malware
+* enable process auditing
 
 
 

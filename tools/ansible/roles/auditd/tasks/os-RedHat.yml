@@ -1,0 +1,22 @@
+---
+- name: ensure packages
+  package:
+    name: audit
+    state: present
+
+- name: config
+  copy:
+    src: "{{ item }}"
+    dest: "/etc/audit/rules.d/{{ item | basename }}"
+    owner: root
+    group: root
+    mode: 0600
+  loop:
+    - files/Linux/z10-procmon.rules
+  notify: restart auditd
+
+- name: ensure service
+  service:
+    name: auditd
+    enabled: true
+    state: started

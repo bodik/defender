@@ -1,0 +1,9 @@
+# ansible itself
+ansible<2.10
+ansible-lint
+yamllint
+
+# utils
+flake8
+prettytable
+pylint

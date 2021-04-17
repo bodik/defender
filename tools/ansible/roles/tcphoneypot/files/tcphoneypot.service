@@ -1,0 +1,21 @@
+[Unit]
+Description=tcphoneypot
+After=network-online.target
+Wants=network-online.target systemd-networkd-wait-online.service
+
+StartLimitIntervalSec=500
+StartLimitBurst=5
+
+[Service]
+Restart=on-failure
+RestartSec=5s
+
+WorkingDirectory=/home/tcphoneypot
+ExecStart=/usr/bin/python3 /home/tcphoneypot/tcp-honeypot.py
+
+User=tcphoneypot
+Group=tcphoneypot
+SyslogIdentifier=tcphoneypot
+
+[Install]
+WantedBy=multi-user.target

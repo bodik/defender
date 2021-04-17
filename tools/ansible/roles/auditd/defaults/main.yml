@@ -1,0 +1,4 @@
+---
+packages_auditd:
+  Debian: auditd
+  RedHat: audit

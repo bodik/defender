@@ -1,0 +1,5 @@
+---
+- name: install auditd
+  hosts: all
+  roles:
+    - role: auditd

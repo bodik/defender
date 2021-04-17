@@ -1,0 +1,5 @@
+---
+- name: run malfind role
+  hosts: all
+  roles:
+    - malfind

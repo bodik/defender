@@ -1,0 +1,21 @@
+---
+- name: test auditd configured
+  hosts: all
+  tasks:
+    - name: random as fact
+      set_fact:
+        random_number: "{{ 1000 | random }}"
+
+    - name: trigger auditd logging  # noqa no-changed-when
+      command: "ls /auditdtest.{{ random_number }}"
+      failed_when: false
+
+    - name: check auditd logging (linux)
+      command: "grep 'a0=\"ls\" a1=\"/auditdtest.{{ random_number }}\"' /var/log/audit/audit.log"
+      when: 'ansible_os_family in ["RedHat", "Debian"]'
+
+    - name: check auditd logging (freebsd)
+      shell: "praudit -l /var/audit/current | grep -v grep | grep ',exec arg,ls,/auditdtest.{{ random_number }},'"
+      when: 'ansible_os_family in ["FreeBSD"]'
+      # see os-FreeBSD.yml for notes on auditd implementation
+      ignore_errors: true

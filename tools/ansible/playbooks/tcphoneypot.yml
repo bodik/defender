@@ -1,0 +1,35 @@
+---
+- name: deploy tcphoneypot service
+  hosts: all
+  roles:
+    - tcphoneypot
+
+  tasks:
+    - name: create service user
+      user:
+        name: tcphoneypot
+
+    - name: app
+      copy:
+        src: files/tcphoneypot/tcp-honeypot.py
+        dest: /home/tcphoneypot/tcp-honeypot.py
+        owner: root
+        group: root
+        mode: 0644
+
+    - name: service unit
+      copy:
+        src: files/tcphoneypot/tcphoneypot.service
+        dest: /etc/systemd/system/tcphoneypot.service
+        owner: root
+        group: root
+        mode: 0644
+
+    - name: reload systemd
+      command: systemctl daemon-reload
+
+    - name: ensure service
+      service:
+        name: tcphoneypot
+        enabled: true
+        state: started

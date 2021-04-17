@@ -1,0 +1,22 @@
+---
+- name: prepare create local repository directory
+  file:
+    path: "{{ fetch_dir }}"
+    state: directory
+    owner: root
+    group: root
+    mode: 0700
+  delegate_to: localhost
+
+- name: prepare cleanup temp_dir
+  file:
+    path: "{{ temp_dir }}"
+    state: absent
+
+- name: prepare create temp_dir
+  file:
+    path: "{{ temp_dir }}"
+    owner: root
+    group: "0"  # portable freebsd
+    mode: 0700
+    state: directory

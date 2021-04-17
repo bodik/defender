@@ -1,0 +1,5 @@
+---
+# refactored govcert.cz/LockedShields/2019/Ansible/-/blob/master/roles/malware-finding/tasks/main.yml
+- import_tasks: prepare.yml
+- include: "os-{{ ansible_os_family }}.yml"
+- import_tasks: fetch_results.yml

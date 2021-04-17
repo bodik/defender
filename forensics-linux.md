@@ -2,31 +2,33 @@
 
 ## generate timeline
 ```
-find / -xdev -print0 | xargs -0 stat -c "%Y %X %Z %A %U %G %n" > timestamps.dat
-timeline-decorator.py < timestamps.dat | sort -n > timeline.txt
+Linux: find / -xdev -print0 | xargs -0 stat -c "%Y %X %Z %A %U %G %n" >> timestamps.dat
+FreeBSD: find / -xdev -print0 | xargs -0 stat -f "%a %m %c %Sp %Su %Sg %N" >> timestamps.dat
+timeline_decorator.py < timestamps.dat | sort -n > timeline.txt
 ```
-[timeline-decorator.py](../tools/timeline-decorator.py)
-
+[timeline_decorator.py](../tools/timeline_decorator.py)
 
 
 
 ## check against package manager hashes
 even if you know that you cann't fully trust them
- <table>
 
-<tr><td>Debian GNU/Linux</td><td>
-	`cd / && find /var/lib/dpkg/info/ -name "*md5sums" -exec md5sum -c {} \; | grep -v OK`
-</td></tr>
+### Debian
+```
+cd / && find /var/lib/dpkg/info/ -name "*md5sums" -exec md5sum -c {} \; | grep -v OK
+debsums
+```
 
-<tr><td>RedHat based distributions</td><td>
-	`rpm -Va`
-</td></tr>
+### RedHat
+```
+rpm -Va
+```
 
-<tr><td>FreeBSD</td><td>
-	`pkg check -s -a`
-</td></tr>
-
-</table>
+### FreeBSD
+```
+freebsd-update IDS
+pkg check -s -a
+```
 
 
 
@@ -39,8 +41,7 @@ even if you know that you cann't fully trust them
 * crontabs, atjobs
 * rc files (~/.bashrc, ~/.bash_profile, ~/.profile, ...)
 * additional files within web applications, .htaccess bind php to any mimetime/filename
-
-
+* files containing spaces ("/usr/libexec/getty" vs "/usr/libexec/getty Pc") 
 
 
 
@@ -58,4 +59,10 @@ ls -ltr
 
 # check the assembly
 objdump -M intel -d FILEX
+
+# check unusual files with flags
+## Linux -- immutable flags
+lsattr
+## FreeBSD -- schg,uschg
+find / -exec ls -lo {} \; 2>/dev/null | grep schg
 ```

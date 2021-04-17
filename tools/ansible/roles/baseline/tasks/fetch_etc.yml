@@ -1,0 +1,16 @@
+---
+- name: baseline pack etc
+  archive:
+    path: "/etc"
+    dest: "{{ temp_dir }}/etc.tar.bz2"
+    format: bz2
+    owner: root
+    group: "0"
+    mode: 0600
+
+- name: baseline fetch packed etc
+  fetch:
+    src: "{{ temp_dir }}/etc.tar.bz2"
+    dest: "{{ fetch_dir }}/"
+    flat: true
+    fail_on_missing: true

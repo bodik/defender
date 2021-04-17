@@ -1,0 +1,41 @@
+---
+# refactored govcert.cz/LockedShields/2019/Ansible/-/blob/master/roles/detect-reverse-shell/tasks/main.yml
+- name: run psfaxu
+  shell: "ps faxu > {{ temp_psfaxu }}"
+  changed_when: false
+
+- name: look for suspicious process arguments
+  command: "grep -E '{{ item }}' {{ temp_psfaxu }}"
+  register: res
+  failed_when: res.rc == 0
+  changed_when: false
+  ignore_errors: true
+  loop:
+    - '/dev/tcp'
+    - 'socket.socket'
+    - 'exec('
+    - 'python.* -c'
+    - 'fsockopen('
+    - '^nc '
+    - '^ncat '
+    - '^netcat '
+    - 'telnet'
+
+- name: look for suspicious user processes
+  shell: "grep -v -e '^root' -e '^gdm' -e '^scoring' -e '^syslog' -e '^rtkit' -e '_chrony' -e '^kernoops' -e '^xrdp' {{ temp_psfaxu }} | grep python"
+  register: res
+  failed_when: res.rc == 0
+  changed_when: false
+  ignore_errors: true
+
+- name: install lsof
+  package:
+    name: lsof
+    state: present
+
+- name: check for binaries with raw sockets listening
+  shell: lsof -n -b -w | grep RAW
+  register: res
+  failed_when: res.rc == 0
+  changed_when: false
+  ignore_errors: true

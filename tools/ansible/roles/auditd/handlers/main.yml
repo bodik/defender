@@ -1,0 +1,8 @@
+---
+# auditd refuses to be restarted with systemd
+- name: restart auditd  # noqa command-instead-of-module
+  command: service auditd restart
+
+- name: freebsd should reboot
+  debug:
+    msg: FreeBSD systems should reboot to make auditd fully working

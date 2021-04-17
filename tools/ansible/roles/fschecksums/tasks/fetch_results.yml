@@ -1,0 +1,16 @@
+---
+- name: pack results
+  archive:
+    path: "{{ temp_dir }}"
+    dest: "{{ temp_dir }}.tar.bz2"
+    format: bz2
+    owner: root
+    group: "0"
+    mode: 0600
+
+- name: fetch results
+  fetch:
+    src: "{{ temp_dir }}.tar.bz2"
+    dest: "{{ fetch_dir }}/"
+    flat: true
+    fail_on_missing: true

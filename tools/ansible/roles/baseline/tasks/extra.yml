@@ -1,0 +1,48 @@
+---
+- name: extra.sh create basedir
+  file:
+    path: "{{ temp_dir }}/extra"
+    state: directory
+    owner: root
+    group: "0"
+    mode: 0700
+
+- name: extra.sh install
+  copy:
+    src: "{{ item }}"
+    dest: "{{ temp_dir }}/extra/extra.sh"
+    owner: root
+    group: "0"  # portable freebsd
+    mode: 0600
+  with_first_found:
+    - "files/{{ inventory_hostname }}/extra.sh"
+    - "files/{{ ansible_os_family }}/extra.sh"
+    - "files/Linux/extra.sh"
+
+- name: extra.sh run script  # noqa no-changed-when
+  shell: "/bin/sh -x extra.sh 1>extra.out 2>&1"
+  args:
+    executable: /bin/sh  # portable freebsd
+    chdir: "{{ temp_dir }}/extra"
+
+- name: extra.sh pack results
+  archive:
+    path: "{{ temp_dir }}/extra"
+    dest: "{{ temp_dir }}/extra.tar.bz2"
+    format: bz2
+    owner: root
+    group: "0"
+    mode: 0600
+
+- name: extra.sh fetch results
+  fetch:
+    src: "{{ temp_dir }}/extra.tar.bz2"
+    dest: "{{ fetch_dir }}/"
+    flat: true
+    fail_on_missing: true
+
+# cleanup during task, the extra data might be large
+- name: extra.sh cleanup
+  file:
+    path: "{{ temp_dir }}/extra"
+    state: absent

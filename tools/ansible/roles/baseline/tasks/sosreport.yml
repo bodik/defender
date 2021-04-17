@@ -1,0 +1,22 @@
+---
+- name: sosreport install
+  package:
+    name: "{{ packages_sosreport[ansible_os_family] }}"
+    state: present
+
+- name: sosreport run  # noqa no-changed-when
+  shell:
+    cmd: |
+      sosreport --batch --tmp-dir {{ temp_dir }}
+      mv -f {{ temp_dir }}/sosreport*.tar.xz {{ temp_dir }}/sosreport.tar.xz
+      mv -f {{ temp_dir }}/sosreport*.md5 {{ temp_dir }}/sosreport.md5
+
+- name: sosreport fetch results
+  fetch:
+    src: "{{ item }}"
+    dest: "{{ fetch_dir }}/"
+    flat: true
+    fail_on_missing: true
+  loop:
+    - "{{ temp_dir }}/sosreport.tar.xz"
+    - "{{ temp_dir }}/sosreport.md5"

@@ -1,0 +1,43 @@
+---
+- name: run incident handling tasks
+  hosts: all
+  gather_facts: false
+
+  tasks:
+    - name: check limit argument
+      fail:
+        msg: "you must use -l or --limit - when you really want to use all hosts, use -l 'all'"
+      when: ansible_limit is not defined
+      run_once: true
+
+    - name: define play_fetch_dir
+      set_fact:
+        # cannot use simple var, lookup would each time when var is used
+        play_fetch_dir: "data/{{ inventory_hostname }}/incident-{{ lookup('pipe', 'date -Iseconds -u') }}"
+
+    - name: print current fetch dir
+      debug:
+        var: play_fetch_dir
+
+    - name: gather facts
+      gather_facts:
+
+    - name: run incident baseline
+      vars:
+        fetch_dir: "{{ play_fetch_dir }}"
+      import_role:
+        name: baseline
+        tasks_from: main_incident.yml
+
+    - name: fetch selected logs
+      fetch:
+        src: "{{ item }}"
+        dest: "{{ play_fetch_dir }}/"
+        flat: true
+        fail_on_missing: false
+        validate_checksum: false
+      loop:
+        - /var/log/auth.log
+        - /var/log/secure
+        - /var/log/audit/audit.log
+        - /var/audit/current

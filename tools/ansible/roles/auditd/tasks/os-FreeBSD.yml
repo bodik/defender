@@ -1,0 +1,51 @@
+---
+# Based on experimentation FreeBSD systems should reboot in order for auditd
+# to work properly
+#
+# ## References
+# * https://docs.freebsd.org/en/books/handbook/audit/#audit-config
+# * man audit_user
+# IMPLEMENTATION NOTES
+#     Per-user and global audit preselection configuration are evaluated at
+#     time of login, so users must log out and back in again for audit changes
+#     relating to preselection to take effect.
+#
+#     Audit record preselection occurs with respect to the audit identifier
+#     associated with a process, rather than with respect to the UNIX user or
+#     group ID.  The audit identifier is set as part of the user credential
+#     context as part of login, and typically does not change as a result of
+#     running setuid or setgid applications, such as su(1).  This has the
+#     advantage that events that occur after running su(1) can be audited to
+#     the original authenticated user, as required by CAPP, but may be
+#     surprising if not expected.
+- name: enable auditd service (sysrc)
+  sysrc:
+    name: "auditd_enable"
+    value: 'YES'
+    state: present
+
+- name: enable audit exec
+  lineinfile:
+    path: /etc/security/audit_control
+    regexp: '^flags:'
+    line: 'flags:lo,aa,ex'
+    state: present
+  notify:
+    - restart auditd
+    - freebsd should reboot
+
+- name: enable audit exec
+  lineinfile:
+    path: /etc/security/audit_control
+    regexp: '^policy:'
+    line: 'policy:cnt,argv,arge'
+    state: present
+  notify:
+    - restart auditd
+    - freebsd should reboot
+
+- name: enable auditd service (runtime)
+  service:
+    name: auditd
+    enabled: true
+    state: started

@@ -1,0 +1,11 @@
+---
+fetch_dir: "data/{{ inventory_hostname }}/baseline"
+temp_dir: /tmp/baseline
+
+packages_tar:
+  RedHat: tar
+  Debian: tar
+
+packages_sosreport:
+  RedHat: sos
+  Debian: sosreport

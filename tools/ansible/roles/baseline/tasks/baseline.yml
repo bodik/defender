@@ -1,0 +1,42 @@
+---
+- name: baseline.sh create basedir
+  file:
+    path: "{{ temp_dir }}/baseline"
+    owner: root
+    group: "0"  # portable freebsd
+    mode: 0700
+    state: directory
+
+- name: baseline.sh install
+  copy:
+    src: "{{ item }}"
+    dest: "{{ temp_dir }}/baseline/baseline.sh"
+    owner: root
+    group: "0"
+    mode: 0600
+  with_first_found:
+    - "files/{{ inventory_hostname }}/baseline.sh"
+    - "files/{{ ansible_os_family }}/baseline.sh"
+    - "files/Linux/baseline.sh"
+
+- name: baseline.sh run script  # noqa no-changed-when
+  shell: "/bin/sh -x baseline.sh 1>baseline.out 2>&1"
+  args:
+    executable: /bin/sh  # portable freebsd
+    chdir: "{{ temp_dir }}/baseline"
+
+- name: baseline.sh pack results
+  archive:
+    path: "{{ temp_dir }}/baseline"
+    dest: "{{ temp_dir }}/baseline.tar.bz2"
+    format: bz2
+    owner: root
+    group: "0"
+    mode: 0600
+
+- name: baseline.sh fetch results
+  fetch:
+    src: "{{ temp_dir }}/baseline.tar.bz2"
+    dest: "{{ fetch_dir }}/"
+    flat: true
+    fail_on_missing: true

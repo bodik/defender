@@ -1,0 +1,3 @@
+---
+fetch_dir: "data/{{ inventory_hostname }}"
+temp_dir: /tmp/fschecksums

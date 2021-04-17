@@ -1,12 +1,11 @@
 # Monitoring
 
 
-
 ## Rules
 
 * every running process should be started and stopped by common means (init, systemd, upstart, services)
 * every running service must have working logging
-
+* enable process auditing
 
 
 ## Baselines
@@ -15,18 +14,20 @@ monitoring should have a foundation in a baseline
 
 * [baseline.sh](tools/linux/baseline.sh)
 * [baseline.ps1](tools/windows/toolbox/baseline.ps1) (requires toolbox!)
+* see ansible toolbox repo
 
 ### Linux full baseline
 ```
 tar czf /tmp/$(hostname -f)-base.tgz --exclude='/aDirectory*' /bin /boot /etc /home /lib /lib64 /opt /root /sbin /usr /var [LOCALDIRS]
 ```
+
 ### Windows full baseline
 warning: todo
 
 
-
 ## Processes, services, network activity, sessions and logs
 [rosseta stone for unix](http://bhami.com/rosetta.html)
+
  <table>
 
 <tr><td>Linux</td><td>
@@ -78,7 +79,6 @@ warning: todo
 </td></tr>
 
  </table>
-
 
 
 ## php engine request logger

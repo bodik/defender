@@ -1,0 +1,29 @@
+---
+- name: verify files to package manager checksums (grep)  # noqa command-instead-of-shell
+  shell: "{{ item }}"
+  args:
+    executable: /bin/sh
+    chdir: "{{ temp_dir }}"
+  register: res
+  failed_when: res.rc == 0
+  changed_when: false
+  ignore_errors: true
+  loop:
+    # Finding binaries that don’t belong to any package
+    - 'find /proc/*/exe -exec readlink {} + | xargs rpm -qf | grep "not owned" 1>find_bin'
+    # Verify PAM modules
+    - 'find /lib64/security/ | xargs rpm -qf | grep "not owned" 1>verify_pam'
+
+- name: verify files to package manager checksums (retval)  # noqa command-instead-of-shell
+  shell: "{{ item }}"
+  args:
+    executable: /bin/sh
+    chdir: "{{ temp_dir }}"
+  register: res
+  changed_when: false
+  ignore_errors: true
+  loop:
+    # Verifying the binaries running match what was in the packages
+    - 'find /proc/*/exe -exec readlink {} + | xargs rpm -qf | xargs rpm -V 1>verify_bin'
+    # Verify all
+    - 'rpm -Va 1>verify_all'

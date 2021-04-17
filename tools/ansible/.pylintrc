@@ -1,0 +1,5 @@
+[FORMAT]
+max-line-length=150
+
+[BASIC]
+good-names=e

@@ -1,0 +1,18 @@
+---
+- name: run and fetch basic runtime baseline
+  hosts: all
+  tasks:
+    - name: define play_fetch_dir
+      set_fact:
+        # cannot use simple var, lookup would each time when var is used
+        play_fetch_dir: "data/{{ inventory_hostname }}/baseline-{{ lookup('pipe', 'date -Iseconds -u') }}"
+
+    - name: print current fetch dir
+      debug:
+        var: play_fetch_dir
+
+    - name: run baseline
+      vars:
+        fetch_dir: "{{ play_fetch_dir }}"
+      import_role:
+        name: baseline

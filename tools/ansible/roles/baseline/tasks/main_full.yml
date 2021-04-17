@@ -1,0 +1,7 @@
+---
+- import_tasks: prepare.yml
+- import_tasks: baseline.yml
+- import_tasks: sosreport.yml
+  when: "ansible_os_family in packages_sosreport"
+  ignore_errors: true
+- import_tasks: extra.yml
