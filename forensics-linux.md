@@ -6,25 +6,22 @@ Linux: find / -xdev -print0 | xargs -0 stat -c "%Y %X %Z %A %U %G %n" >> timesta
 FreeBSD: find / -xdev -print0 | xargs -0 stat -f "%a %m %c %Sp %Su %Sg %N" >> timestamps.dat
 timeline_decorator.py < timestamps.dat | sort -n > timeline.txt
 ```
-
+(see toolbox for timeline_decorator.py)
 
 
 ## check against package manager hashes
+
 even if you know that you cann't fully trust them
 
-### Debian
 ```
+# Debian
 cd / && find /var/lib/dpkg/info/ -name "*md5sums" -exec md5sum -c {} \; | grep -v OK
 debsums
-```
 
-### RedHat
-```
+# RedHat
 rpm -Va
-```
 
-### FreeBSD
-```
+# FreeBSD
 freebsd-update IDS
 pkg check -s -a
 ```
@@ -33,12 +30,12 @@ pkg check -s -a
 
 ## places to hide malware/backdoors/persistence
 * kernel modules, initrd/initramdisk
-* init files (/etc/inittab, /etc/init.d/, /etc/init/, /lib/systemd/system/, ...)
-* preloaded libs (/etc/ld.so.*)
+* init files (`/etc/inittab, /etc/init.d/, /etc/init/, /lib/systemd/system/, ...`)
+* preloaded libs (`/etc/ld.so.*`)
 * rogue pam modules
 * snmpd.conf allowing external command executions
 * crontabs, atjobs
-* rc files (~/.bashrc, ~/.bash_profile, ~/.profile, ...)
+* rc files (`~/.bashrc, ~/.bash_profile, ~/.profile, /etc/profile, /etc/skel, ...`)
 * additional files within web applications, .htaccess bind php to any mimetime/filename
 * files containing spaces ("/usr/libexec/getty" vs "/usr/libexec/getty Pc") 
 

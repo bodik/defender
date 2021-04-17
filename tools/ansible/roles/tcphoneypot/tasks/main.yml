@@ -5,7 +5,7 @@
 
 - name: app
   copy:
-    src: files/tcphoneypot/tcp-honeypot.py
+    src: files/tcp-honeypot.py
     dest: /home/tcphoneypot/tcp-honeypot.py
     owner: root
     group: root
@@ -13,17 +13,14 @@
 
 - name: service unit
   copy:
-    src: files/tcphoneypot/tcphoneypot.service
+    src: files/tcphoneypot.service
     dest: /etc/systemd/system/tcphoneypot.service
     owner: root
     group: root
     mode: 0644
 
-- name: reload systemd
-  command: systemctl daemon-reload
-
 - name: ensure service
-  service:
+  systemd:
     name: tcphoneypot
     enabled: true
     state: started
