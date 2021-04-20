@@ -34,10 +34,11 @@ pkg check -s -a
 * preloaded libs (`/etc/ld.so.*`)
 * rogue pam modules
 * snmpd.conf allowing external command executions
-* crontabs, atjobs
+* crontabs, atjobs, systemd timers
 * rc files (`~/.bashrc, ~/.bash_profile, ~/.profile, /etc/profile, /etc/skel, ...`)
 * additional files within web applications, .htaccess bind php to any mimetime/filename
 * files containing spaces ("/usr/libexec/getty" vs "/usr/libexec/getty Pc") 
+* systemd units (services, sockets, targets, timers, ...)
 
 
 
