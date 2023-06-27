@@ -8,7 +8,11 @@ dd if=/dev/disk bs=8M | gzip -cv9 > YYYYMMDD-casetag-DISKID.dd.gz
 
 * make best_evidence and working_evidence copies
 * use losetup, kpartx, mount for reading the data
-
+* when creating image with `dd` note the required usage of `conv=noerror,sync` and
+  it's sideeffect when `bs=` does not align with device size, thus padding last
+  block with zeroes which results into different hash.
+  * flab ft1 evidence acquisition
+  * https://forensics.wiki/dd/#tips
 
 
 ## mount qcow
